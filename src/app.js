@@ -67,7 +67,7 @@ app.get('/credit', (req, res) => {
 app.get('/profile', (req, res) => {
     res.render('profile',
     {
-        user: user[0] //First user in the users.json
+        user: users[0] //First user in the users.json
     });
 });
 
