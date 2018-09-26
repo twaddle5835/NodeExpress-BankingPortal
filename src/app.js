@@ -35,8 +35,7 @@ const users = JSON.parse(userData);
 app.get('/', (req, res) => {
     res.render('index',
         {
-            title: 'Account Summary',
-            accounts: 'accounts'
+            title: 'Account Summary', accounts
         });
 });
 
@@ -44,23 +43,23 @@ app.get('/', (req, res) => {
 app.get('/savings', (req, res) => {
     res.render('account',
         {
-            account: 'accounts.savings'
+            account: accounts.savings
         });
 });
 
 //checking
-app.get('/savings', (req, res) => {
-    res.render('checking',
+app.get('/checking', (req, res) => {
+    res.render('account',
         {
-            account: 'accounts.checking'
+            account: accounts.checking
         });
 });
 
 //credit
-app.get('/savings', (req, res) => {
-    res.render('credit',
+app.get('/credit', (req, res) => {
+    res.render('account',
         {
-            account: 'accounts.credit'
+            account: accounts.credit
         });
 });
 
