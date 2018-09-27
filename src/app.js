@@ -125,11 +125,11 @@ app.post('/transfer', (req, res) => {
     //Use FS to write to file
     fs.writeFileSync(
         path.join(
-            __dirname + 'json' + 'accounts.json'
+            __dirname,
+            'json',
+            'accounts.json'
         ),
-        accountsJSON, {
-            encoding: 'utf8'
-        }
+        accountsJSON, 'utf8'
     );
 
     //Render transfers screen
@@ -169,9 +169,7 @@ app.post(
                 'json',
                 'accounts.json'
             ),
-            accountsJSON, {
-                encoding: 'utf8'
-            }
+            accountsJSON, 'utf8'
         );
 
         res.render(
