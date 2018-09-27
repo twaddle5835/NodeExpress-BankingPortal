@@ -15,6 +15,9 @@ const {
     writeJSON
 } = require('./data');
 
+const accountRoutes = require('./routes/accounts');
+const servicesRoutes = require('./routes/services');
+
 //Set path to views folder
 app.set(
     'views',
@@ -53,33 +56,6 @@ app.get('/', (req, res) => {
     );
 });
 
-//savings
-app.get('/savings', (req, res) => {
-    res.render(
-        'account', {
-            account: accounts.savings
-        }
-    );
-});
-
-//checking
-app.get('/checking', (req, res) => {
-    res.render(
-        'account', {
-            account: accounts.checking
-        }
-    );
-});
-
-//credit
-app.get('/credit', (req, res) => {
-    res.render(
-        'account', {
-            account: accounts.credit
-        }
-    );
-});
-
 //Profile
 app.get('/profile', (req, res) => {
     res.render(
@@ -89,66 +65,11 @@ app.get('/profile', (req, res) => {
     );
 });
 
-//Transfer
-app.get('/transfer', (req, res) => {
-    res.render(
-        'transfer', {
+//Accounts
+app.use('/account', accountRoutes);
 
-        }
-    );
-});
-
-app.post('/transfer', (req, res) => {
-    //Subtract requested amount from selected from account
-    accounts[req.body.from].balance = accounts[req.body.from].balance - req.body.amount;
-
-    //Add requested amount to selected to account
-    accounts[req.body.to].balance = parseInt(accounts[req.body.to].balance, 10) + parseInt(req.body.amount, 10);
-
-    //JSON to string
-    const accountsJSON = JSON.stringify(accounts);
-
-    writeJSON();
-
-    //Render transfers screen
-    res.render(
-        'transfer', {
-            message: "Transfer Completed"
-        }
-    );
-});
-
-//Payments
-app.get(
-    '/payment', (req, res) => {
-        res.render(
-            'payment', {
-                account: accounts.credit
-            }
-        );
-    });
-
-app.post(
-    '/payment', (req, res) => {
-        //Subtract amount from balance
-        accounts.credit.balance = accounts.credit.balance - req.body.amount;
-
-        //Add amount to available
-        accounts.credit.available = parseInt(accounts.credit.available, 10) +
-            parseInt(req.body.amount, 10);
-
-        //Save to file
-        const accountsJSON = JSON.stringify(accounts);
-
-        writeJSON();
-
-        res.render(
-            'payment', {
-                message: "Payment Successful",
-                account: accounts.credit
-            }
-        );
-    });
+//Services
+app.use('/services', servicesRoutes);
 
 //Port 3000
 app.listen(
