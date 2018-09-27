@@ -37,7 +37,7 @@ const writeJSON = () => {
     );
 }; 
 
-modules.exports = {
+module.exports = {
     accounts, 
     users, 
     writeJSON
