@@ -8,6 +8,13 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
+//External Files
+const {
+    accounts,
+    users,
+    writeJSON
+} = require('./data');
+
 //Set path to views folder
 app.set(
     'views',
@@ -36,27 +43,6 @@ app.use(
         extended: true
     })
 );
-
-//Read account data
-const accountData = fs.readFileSync(
-    path.join(
-        __dirname, 'json',
-        'accounts.json'
-    ), 'utf8'
-);
-
-const accounts = JSON.parse(accountData);
-
-//Read user data
-const userData = fs.readFileSync(
-    path.join(
-        __dirname,
-        'json',
-        'users.json'
-    ), 'utf8'
-);
-
-const users = JSON.parse(userData);
 
 //index root
 app.get('/', (req, res) => {
@@ -122,15 +108,7 @@ app.post('/transfer', (req, res) => {
     //JSON to string
     const accountsJSON = JSON.stringify(accounts);
 
-    //Use FS to write to file
-    fs.writeFileSync(
-        path.join(
-            __dirname,
-            'json',
-            'accounts.json'
-        ),
-        accountsJSON, 'utf8'
-    );
+    writeJSON();
 
     //Render transfers screen
     res.render(
@@ -162,25 +140,19 @@ app.post(
         //Save to file
         const accountsJSON = JSON.stringify(accounts);
 
-        //Use FS to write to file
-        fs.writeFileSync(
-            path.join(
-                __dirname,
-                'json',
-                'accounts.json'
-            ),
-            accountsJSON, 'utf8'
-        );
+        writeJSON();
 
         res.render(
             'payment', {
-                message: "Payment Successful", 
+                message: "Payment Successful",
                 account: accounts.credit
             }
         );
     });
 
 //Port 3000
-app.listen(3000, () => {
-    console.log('PS Project Running on port 3000!');
-});
+app.listen(
+    3000, () => {
+        console.log('PS Project Running on port 3000!');
+    }
+);
