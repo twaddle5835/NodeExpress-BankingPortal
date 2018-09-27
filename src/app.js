@@ -173,7 +173,7 @@ app.post(
         );
 
         res.render(
-            '/payment', {
+            'payment', {
                 message: "Payment Successful", 
                 account: accounts.credit
             }
